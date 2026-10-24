@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>暮らし方｜まとめノート</title>
+<meta name="description" content="生き方で決めた向かう先を、毎日の手触りに落とすところ。住む・着る・食べる・健康・おかねの五つの場面と、小さく変えて習慣にするための考え方。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf8; --ink:#191715; --muted:#73706a; --faint:#a8a49c;
+    --line:#e5e2db; --card:#f3f1ec; --accent:#857449;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#100f0e; --ink:#efece7; --muted:#918c84; --faint:#5c5852;
+      --line:#262421; --card:#181614; --accent:#c0ab78;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#100f0e; --ink:#efece7; --muted:#918c84; --faint:#5c5852;
+    --line:#262421; --card:#181614; --accent:#c0ab78;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,sans-serif;
+    font-size:16px;line-height:1.95;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:48rem;margin:0 auto;padding:0 16px}
+  @media (min-width:640px){.wrap{padding:0 28px}}
+
+  .top{padding:24px 0 0}
+  .back{font-size:.75rem;letter-spacing:.1em;color:var(--muted);text-decoration:none}
+  .back:hover{color:var(--ink)}
+
+  header.hero{padding:72px 0 24px}
+  .eyebrow{font-size:.7rem;letter-spacing:.24em;color:var(--accent);margin:0 0 14px}
+  h1{font-family:"Noto Serif JP",serif;font-weight:600;font-size:clamp(2rem,6vw,2.8rem);line-height:1.4;margin:0 0 6px;letter-spacing:.04em}
+  .mn-tagline{font-family:"Noto Serif JP",serif;font-weight:500;font-size:clamp(1.05rem,2.6vw,1.4rem);line-height:1.75;letter-spacing:.02em;margin:.1em 0 1.1em;opacity:.85}
+  .lead{color:var(--muted);margin:0;max-width:34em}
+
+  .toc{list-style:none;margin:30px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 18px;
+    border-top:1px solid var(--line);padding-top:18px}
+  .toc a{font-size:.8rem;color:var(--muted);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+
+  section{padding:56px 0 0}
+  .sec-n{display:block;font-size:.66rem;letter-spacing:.2em;color:var(--faint);margin-bottom:8px}
+  h2{font-family:"Noto Serif JP",serif;font-weight:600;font-size:1.3rem;letter-spacing:.04em;margin:0 0 6px}
+  .pull{font-family:"Noto Serif JP",serif;font-weight:500;font-size:1.05rem;line-height:1.8;margin:.2em 0 1em;opacity:.85}
+  .note{color:var(--faint);font-size:.82rem;margin:0 0 22px}
+  p{margin:0 0 14px}
+
+  .points{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+  .points li{padding:14px 18px;background:var(--card);border-radius:3px;font-size:.95rem}
+  .points b{display:block;font-family:"Noto Serif JP",serif;font-weight:600;margin-bottom:2px}
+  .points span{color:var(--muted);font-size:.9rem}
+
+  .todo{margin:16px 0 0;padding:16px 18px;border:1px dashed var(--line);border-radius:3px;
+    color:var(--faint);font-size:.86rem;line-height:1.85;background:transparent}
+  .todo b{display:block;font-size:.66rem;letter-spacing:.2em;color:var(--accent);margin-bottom:6px;font-weight:700}
+
+  .notes{border-top:1px solid var(--line);margin-top:8px}
+  .notes a{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:baseline;padding:22px 4px;border-bottom:1px solid var(--line);text-decoration:none}
+  .notes a:hover .ttl{color:var(--accent)}
+  .notes .idx{font-family:"Noto Serif JP",serif;color:var(--faint);font-size:.9rem}
+  .notes .cat{display:block;font-size:.66rem;letter-spacing:.2em;color:var(--faint)}
+  .notes .ttl{display:block;font-family:"Noto Serif JP",serif;font-weight:600;font-size:1.12rem;transition:color .2s}
+  .notes .desc{display:block;font-size:.88rem;color:var(--muted);line-height:1.8;margin-top:4px}
+  .notes .arrow{color:var(--faint)}
+
+  .tl{margin-top:18px;font-size:.9rem;color:var(--muted)}
+  .tl a{color:var(--accent)}
+
+  footer{margin:88px 0 0;padding:28px 0 64px;border-top:1px solid var(--line)}
+  footer p{font-size:.78rem;color:var(--faint);line-height:1.85;margin:0 0 12px}
+
+  .scene{margin:0 0 26px;border-left:3px solid var(--fam);padding-left:18px}
+  .scene.s1{--fam:#a06a52} .scene.s2{--fam:#8a6a83} .scene.s3{--fam:#8c8a4a}
+  .scene.s4{--fam:#5f8f74} .scene.s5{--fam:#5d7083}
+  .scene h3{display:flex;align-items:baseline;gap:12px;font-family:"Noto Serif JP",serif;font-weight:600;font-size:1.08rem;margin:0 0 4px}
+  .scene h3 small{font-family:"Noto Sans JP",sans-serif;font-weight:400;font-size:.72rem;letter-spacing:.16em;color:var(--faint)}
+  .scene > p{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+  .scene a.go{display:block;text-decoration:none;padding:13px 16px;border:1px solid var(--line);border-radius:3px;transition:border-color .2s}
+  .scene a.go:hover{border-color:var(--fam)}
+  .scene a.go b{display:block;font-family:"Noto Serif JP",serif;font-weight:600;font-size:1rem}
+  .scene a.go span{display:block;font-size:.84rem;color:var(--muted);line-height:1.75;margin-top:3px}
+  .scene a.go em{display:block;font-style:normal;font-size:.72rem;letter-spacing:.08em;color:var(--fam);margin-top:7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="../">← m-note トップ</a></div>
+
+  <header class="hero">
+    <p class="eyebrow">WAY OF LIVING</p>
+    <h1>暮らし方</h1>
+    <p class="mn-tagline">暮らしは、意志ではなく仕組みで回る。</p>
+    <p class="lead">生き方で決めた向かう先を、毎日の手触りに落とすところ。住む・着る・食べる・健康・おかねの五つに分けて、整え方を書いていきます。</p>
+    <ul class="toc">
+      <li><a href="#why">なぜ暮らしを整えるのか</a></li>
+      <li><a href="#habit">小さく変えて、習慣にする</a></li>
+      <li><a href="#scenes">五つの場面</a></li>
+      <li><a href="#notes">この中のノート</a></li>
+      <li><a href="#open">まだ確かめていないこと</a></li>
+    </ul>
+  </header>
+
+  <section id="why">
+    <span class="sec-n">01 / WHY</span>
+    <h2>なぜ暮らしを整えるのか</h2>
+    <p class="pull">暮らしは目的ではなく、やりたいことを続けられる状態を保つための土台。</p>
+    <p><a href="../way-of-life/">生き方</a>のノートで決めたのは、自分の意思で自由に生き、世界を知る楽しさと、人生の豊かな体験を味わうこと。旅をする、歩く、見る、作る。どれも、暮らしが回っていてこそ続けられます。</p>
+    <p>だから暮らしは、きれいに保つために管理するものではありません。頑張って一時的に良くするより、崩れたときに早く気づいて戻れること。整っている状態そのものが目的になると、暮らしが仕事になってしまいます。</p>
+  </section>
+
+  <section id="habit">
+    <span class="sec-n">02 / HABIT</span>
+    <h2>小さく変えて、習慣にする</h2>
+    <p class="pull">どうすれば、今より少し良くできるだろう。</p>
+    <p>大きく変えようとすると続きません。日常には「もう少しこうしたら快適になる」という改善点がいくつもあり、一つ一つは小さくていい。五つの場面のどれにも共通する、続けるための考え方を四つにまとめています。</p>
+    <ul class="points">
+      <li><b>やめるより、小さく置き換える</b><span>いきなりやめるのではなく、置き場所を変える、順番を変える、といった小さな変化から試す。</span></li>
+      <li><b>実験の感覚で試す</b><span>「絶対に改善しなければ」ではなく、「少し変えたらどう変わるか」を見る。うまくいかなければ、別のやり方を試せばいい。</span></li>
+      <li><b>きっかけに結びつける</b><span>すでにある行動に新しい習慣をつなげると、意志の力に頼らずにすむ。</span></li>
+      <li><b>改善そのものを習慣にする</b><span>「ちょっと不便だ」「面倒だ」と思ったことは、その場で解決しなくても一か所に書きとめておく。そこに、早く・楽に・自動化・やめる・本当に必要か、という問いを向ける。</span></li>
+    </ul>
+    <p class="tl">睡眠や運動のように健康に固有の習慣は <a href="../health-habits/">健康</a> のノートに書いています。</p>
+  </section>
+
+  <section id="scenes">
+    <span class="sec-n">03 / SCENES</span>
+    <h2>五つの場面</h2>
+    <p class="note">暮らしを五つに分けて、それぞれにノートを持たせています。</p>
+
+    <div class="scene s1">
+      <h3>住む<small>HOME</small></h3>
+      <p>どこで、どんな部屋で過ごすか。暮らしのいちばん外側の器。</p>
+      <a class="go" href="../home/"><b>住む</b><span>住む場所、部屋、家電と道具、整理整頓。</span><em>ノートを読む →</em></a>
+    </div>
+
+    <div class="scene s2">
+      <h3>着る<small>CLOTHES</small></h3>
+      <p>毎日選んでいるのに、いちばん考えていないもの。</p>
+      <a class="go" href="../clothes/"><b>着る</b><span>服を選ぶときの基準、持っているもの、手入れと入れ替え。</span><em>ノートを読む →</em></a>
+    </div>
+
+    <div class="scene s3">
+      <h3>食べる<small>FOOD</small></h3>
+      <p>日常を豊かにする、いちばん身近な楽しみ。</p>
+      <a class="go" href="../food/"><b>食べる</b><span>好きな食べもの、思い出に残っている食事、味わうことと整えること。</span><em>ノートを読む →</em></a>
+    </div>
+
+    <div class="scene s4">
+      <h3>健康<small>HEALTH</small></h3>
+      <p>頑張るためではなく、長く整えるために。</p>
+      <a class="go" href="../health-habits/"><b>健康</b><span>状態を知り、回復を優先し、続く強度で動く。三つの循環で見る。</span><em>ノートを読む →</em></a>
+    </div>
+
+    <div class="scene s5">
+      <h3>おかね<small>MONEY</small></h3>
+      <p>増やすことと、心を支配されることは別の問題。</p>
+      <a class="go" href="../money/"><b>おかね</b><span>資産運用、家計管理、買うときの基準。</span><em>ノートを読む →</em></a>
+    </div>
+  </section>
+
+  <section id="notes">
+    <span class="sec-n">04 / NOTES</span>
+    <h2>この中のノート</h2>
+    <p class="note">どこから読んでもかまいません。</p>
+    <nav class="notes">
+      <a href="../home/"><span class="idx">01</span><span><span class="cat">HOME</span><span class="ttl">住む</span><span class="desc">住む場所、部屋、家電と道具、整理整頓。</span></span><span class="arrow">→</span></a>
+      <a href="../clothes/"><span class="idx">02</span><span><span class="cat">CLOTHES</span><span class="ttl">着る</span><span class="desc">選ぶときの基準、持っているもの、手入れと入れ替え。</span></span><span class="arrow">→</span></a>
+      <a href="../food/"><span class="idx">03</span><span><span class="cat">FOOD</span><span class="ttl">食べる</span><span class="desc">好きな食べもの、思い出に残っている食事、味わうことと整えること。</span></span><span class="arrow">→</span></a>
+      <a href="../health-habits/"><span class="idx">04</span><span><span class="cat">HEALTH</span><span class="ttl">健康</span><span class="desc">状態を知る、回復を優先する、続く強度で動く。</span></span><span class="arrow">→</span></a>
+      <a href="../money/"><span class="idx">05</span><span><span class="cat">MONEY</span><span class="ttl">おかね</span><span class="desc">資産運用、家計管理、買うときの基準。</span></span><span class="arrow">→</span></a>
+    </nav>
+  </section>
+
+  <section id="open">
+    <span class="sec-n">05 / OPEN</span>
+    <h2>まだ確かめていないこと</h2>
+    <div class="todo">
+      <b>これから書く</b>
+      五つの分け方で漏れるものはないか（移動、通信、時間の使い方など）。<br>
+      暮らしを整えることが、それ自体の作業になっていないか。<br>
+      改善の受け皿に書きためたものを、どのくらいの頻度で見直すか。
+    </div>
+  </section>
+
+  <footer>
+    <p>専門家ではない個人が、自分の暮らしについてまとめた個人的なノートです。内容の正確性を保証するものではありません。</p>
+    <p><a class="back" href="../">← m-note トップ</a></p>
+  </footer>
+</div>
+</body>
+</html>
