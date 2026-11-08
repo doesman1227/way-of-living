@@ -101,6 +101,7 @@
     <ul class="toc">
       <li><a href="#why">なぜ暮らしを整えるのか</a></li>
       <li><a href="#habit">小さく変えて、習慣にする</a></li>
+      <li><a href="#routines">書きとめたこと</a></li>
       <li><a href="#scenes">五つの場面</a></li>
       <li><a href="#notes">この中のノート</a></li>
       <li><a href="#open">まだ確かめていないこと</a></li>
@@ -120,18 +121,21 @@
     <h2>小さく変えて、習慣にする</h2>
     <p class="pull">どうすれば、今より少し良くできるだろう。</p>
     <p>大きく変えようとすると続きません。日常には「もう少しこうしたら快適になる」という改善点がいくつもあり、一つ一つは小さくていい。五つの場面のどれにも共通する、続けるための考え方を四つにまとめています。</p>
-    <ul class="points">
-      <li><b>やめるより、小さく置き換える</b><span>いきなりやめるのではなく、置き場所を変える、順番を変える、といった小さな変化から試す。</span></li>
-      <li><b>実験の感覚で試す</b><span>「絶対に改善しなければ」ではなく、「少し変えたらどう変わるか」を見る。うまくいかなければ、別のやり方を試せばいい。</span></li>
-      <li><b>きっかけに結びつける</b><span>すでにある行動に新しい習慣をつなげると、意志の力に頼らずにすむ。</span></li>
-      <li><b>改善そのものを習慣にする</b><span>「ちょっと不便だ」「面倒だ」と思ったことは、その場で解決しなくても一か所に書きとめておく。そこに、早く・楽に・自動化・やめる・本当に必要か、という問いを向ける。</span></li>
-    </ul>
+    <ul class="points" data-self="続け方"><li class="empty">読み込み中…</li></ul>
     <p class="tl">睡眠や運動のように健康に固有の習慣は <a href="../health-habits/">健康</a> のノートに書いています。
       暮らしに限らず、世の中で言われている工夫を場面ごとに並べたものは <a href="../life-hacks/">ライフハック</a> にまとめました。</p>
   </section>
 
+  <section id="routines">
+    <span class="sec-n">03 / ROUTINES</span>
+    <h2>書きとめたこと</h2>
+    <p class="pull">「ちょっと不便だ」と思ったこと、こうしたいと思ったこと。</p>
+    <p>場面ごとに置いていきます。いまはまだ空です。</p>
+    <div data-self-groups="ルーチン"><p class="empty">読み込み中…</p></div>
+  </section>
+
   <section id="scenes">
-    <span class="sec-n">03 / SCENES</span>
+    <span class="sec-n">04 / SCENES</span>
     <h2>五つの場面</h2>
     <p class="note">暮らしを五つに分けて、それぞれにノートを持たせています。場面ごとの工夫を一覧にしたものが <a href="../life-hacks/">ライフハック</a> です。</p>
 
@@ -167,7 +171,7 @@
   </section>
 
   <section id="notes">
-    <span class="sec-n">04 / NOTES</span>
+    <span class="sec-n">05 / NOTES</span>
     <h2>この中のノート</h2>
     <p class="note">どこから読んでもかまいません。</p>
     <p class="tl">五つのどこにも収まらないもの ― デジタル環境、道具、楽しみを支えるサービス ― は <a href="../favorites/">お気に入り</a> に集めています。</p>
@@ -182,7 +186,7 @@
   </section>
 
   <section id="open">
-    <span class="sec-n">05 / OPEN</span>
+    <span class="sec-n">06 / OPEN</span>
     <h2>まだ確かめていないこと</h2>
     <div class="todo">
       <b>これから書く</b>
@@ -197,5 +201,59 @@
     <p><a class="back" href="../">← m-note トップ</a></p>
   </footer>
 </div>
+<script src="../self.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = function (s) {
+    return String(s === undefined || s === null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
+  // kind ごとの 1 項目の markup（元の手書きと同じ形: <b>題</b><span>説明</span>）
+  var ITEM = function (it) { return '<li><b>' + esc(it.title) + '</b><span>' + esc(it.memo) + '</span></li>'; };
+  var RENDER = { '続け方': ITEM };
+
+  function message(box, text) {
+    box.innerHTML = box.tagName === 'UL'
+      ? '<li class="empty">' + esc(text) + '</li>'
+      : '<p class="empty">' + esc(text) + '</p>';
+  }
+
+  // 失敗しても節を空にしない。「読み込めませんでした」を残す。
+  function fail(msg) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-self], [data-self-groups]'), function (b) {
+      message(b, '読み込めませんでした（' + msg + '）');
+    });
+    if (window.console) console.error('self.json:', msg);
+  }
+
+  function render(items) {
+    var errors = Self.validateSelf(items);
+    if (errors.length) { fail(errors[0]); return; }   // 黙って描かない
+    Array.prototype.forEach.call(document.querySelectorAll('[data-self]'), function (box) {
+      var kind = box.getAttribute('data-self');
+      var fn = RENDER[kind];
+      if (!fn) { message(box, '読み込めませんでした（未対応の kind: ' + kind + '）'); return; }
+      var got = Self.byKind(items, kind);
+      if (!got.length) { message(box, '読み込めませんでした（' + kind + ' が0件）'); return; }
+      box.innerHTML = got.map(fn).join('');
+    });
+    // ルーチンは0件が正常(キャプチャの仕組みはこれから)。空でも節を崩さない。
+    Array.prototype.forEach.call(document.querySelectorAll('[data-self-groups]'), function (box) {
+      var groups = Self.groupByKey(items, box.getAttribute('data-self-groups'));
+      if (!groups.length) { message(box, 'まだありません。'); return; }
+      box.innerHTML = groups.map(function (g) {
+        return '<h3>' + esc(g.key) + '</h3><ul class="points">' + g.items.map(ITEM).join('') + '</ul>';
+      }).join('');
+    });
+  }
+
+  fetch('../self.json', { cache: 'no-cache' })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function (d) { render(d.items); })
+    .catch(function (e) { fail(e.message); });
+})();
+</script>
 </body>
 </html>
